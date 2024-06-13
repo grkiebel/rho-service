@@ -1,0 +1,58 @@
+version: "3.8"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_HOST=db
+    container_name: rho_app
+    command: uvicorn main:app --host 0.0.0.0 --reload
+    networks:
+      - rho-net
+    ports:
+      - 8080:8000
+    volumes:
+      - .:/app:ro
+  db:
+    image: postgres
+    container_name: rho_pgdb
+    restart: unless-stopped
+    networks:
+      - rho-net
+    expose:
+      - "5432"
+    ports:
+      - "8081:5432"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - local_pgdata:/var/lib/postgresql/data
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: rho_pgadmin
+    restart: unless-stopped
+    networks:
+      - rho-net
+    ports:
+      - "8082:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
+networks:
+  rho-net:
+    driver: bridge
+
+volumes:
+  local_pgdata:
+  pgadmin-data:
+
+    # https://medium.com/@vishal.sharma./run-postgresql-and-pgadmin-using-docker-compose-34120618bcf9

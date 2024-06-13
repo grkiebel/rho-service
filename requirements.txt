@@ -1,0 +1,8 @@
+psycopg2-binary
+sqlmodel
+PyYAML
+pytest
+fastapi
+uvicorn
+requests
+python-dotenv
