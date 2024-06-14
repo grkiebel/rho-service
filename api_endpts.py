@@ -1,6 +1,5 @@
 from typing import List
 from fastapi import APIRouter, Depends, Request
-from pydantic import BaseModel
 from sqlmodel import Session
 from api_base import handle_db_exceptions as db_ex
 from db_base import get_db
