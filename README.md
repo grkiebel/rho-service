@@ -17,3 +17,5 @@ The service is agnostic of internal details of tool skills and task needs save t
 ## Description
 
 The service is written in python and uses fastapi to provide the restful micoservice. It uses  a postgresql database to store its internal state.  SqlModel is used to provide an ORM.  The service container packages the api code, a postgresql database, and a pgadmin instance (as a convenience).
+
+![alt text](diagrams/schema.png)
