@@ -18,10 +18,10 @@ An example use case would be a laboratory where multiple instruments periodicall
 The service is written in python and uses the fastapi library to provide the restful micoservice. It uses  a postgresql database to store its internal state.  The SqlModel library is used to provide an ORMl for the database.  The service container packages the microservice api code, a postgresql database, and a pgadmin instance (as a convenience).
 
 
-## Database
+### Database
 
 The database has a simple schema as show below:
 
-![alt text](diagrams/schema.png)
+![alt text](figures/schema.png)
 
 The "tools" table is a list of all tools that are currently active or available.  The "tasks" table is a list of all the tasks that are
