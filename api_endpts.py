@@ -51,6 +51,8 @@ doc = {
     "delete_task": "Delete the specified task",
     "delete_tool": "Delete the specified tool",
     "delete_work": "Copy work item to archive and delete it (delete tool and delete task if work succeeded).",
+    "disable_tool": "Disable the specified tool",
+    "enable_tool": "Enable the specified tool",
     "get_all_work": "Get all work",
     "get_archive": "Get a specific archived work item",
     "get_archives": "Get all archived work items",
@@ -110,6 +112,20 @@ async def create_work_report(
 @tool_router.put("/{tool_id}", response_model=Outcome, summary=doc["tool_ready"])
 async def tool_ready(req: Request, tool_id: str, db: Session = Depends(get_db)):
     return db_ex(ToolAc.tool_ready)(tool_id, db)
+
+
+@tool_router.put(
+    "/enable/{tool_id}", response_model=Outcome, summary=doc["enable_tool"]
+)
+async def enable_tool(req: Request, tool_id: str, db: Session = Depends(get_db)):
+    return db_ex(ToolAc.tool_enable)(tool_id, True, db)
+
+
+@tool_router.put(
+    "/disable/{tool_id}", response_model=Outcome, summary=doc["disable_tool"]
+)
+async def disable_tool(req: Request, tool_id: str, db: Session = Depends(get_db)):
+    return db_ex(ToolAc.tool_enable)(tool_id, False, db)
 
 
 @work_router.put(

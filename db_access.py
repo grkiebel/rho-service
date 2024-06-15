@@ -39,6 +39,12 @@ class ToolAccess:
     @staticmethod
     def tool_ready(tool_id: str, session: Session) -> Outcome:
         tool = ToolAccess.get_tool(tool_id, session)
+        if not tool:
+            return Outcome(message=f"Tool '{tool_id}' does not exist", success=False)
+        if not tool.enabled:
+            tool.ready_since = None
+            session.commit()
+            return Outcome(message=f"Tool '{tool_id}' is not enabled", success=False)
         if tool.work and tool.work.status != work_status.NEW:
             return Outcome(
                 message=f"Tool '{tool_id}' is assigned to active work item '{tool.work_id}'",
@@ -47,6 +53,15 @@ class ToolAccess:
         tool.ready_since = datetime.now()
         session.commit()
         return Outcome(message=f"Tool {tool.tool_id} is set as ready")
+
+    @staticmethod
+    def tool_enable(tool_id: str, enable: bool, session: Session) -> Outcome:
+        tool = ToolAccess.get_tool(tool_id, session)
+        if not tool:
+            return Outcome(message=f"Tool '{tool_id}' does not exist", success=False)
+        tool.enabled = enable
+        session.commit()
+        return Outcome(message=f"Tool {tool.tool_id} enabled = {enable}")
 
     @staticmethod
     def delete_tool(tool_id: str, session: Session) -> Outcome:

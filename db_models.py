@@ -23,6 +23,7 @@ class DbTool(SQLModel, table=True):
     created_at: datetime = Field(
         sa_column=Column(DateTime(), server_default=func.now())
     )
+    enabled: bool = Field(default=True)
     ready_since: datetime | None = Field(default=None)
     work_id: Optional[int] = Field(foreign_key="work.work_id")
     work: Optional["DbWork"] = Relationship(back_populates="tool")

@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Dict, List
 from pydantic import BaseModel
 from sqlalchemy import JSON, Column
@@ -19,6 +20,8 @@ class ToolUpdate(BaseModel):
 
 class BriefTool(BaseModel):
     work_id: int | None = None
+    enabled: bool | None = None
+    ready_since: datetime | None = None
     task_id: str | None = None
     tool_id: str | None = None
     status: str | None = None
@@ -30,6 +33,8 @@ class BriefTool(BaseModel):
         self.task_id = tool.work.task.task_id if tool.work else None
         self.complete = tool.work.completed if tool.work else None
         self.status = tool.work.status if tool.work else None
+        self.enabled = tool.enabled
+        self.ready_since = tool.ready_since
         return self
 
 
