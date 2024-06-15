@@ -24,4 +24,4 @@ The database has a simple schema as show below:
 
 ![alt text](figures/schema.png)
 
-The "tools" table is a list of all tools that are currently active or available.  The "tasks" table is a list of all the tasks that are
+The "tools" table is a list of all tools that are currently active or available.  The "tasks" table is a list of all the tasks that are active or available.  The "work" table records the assignement of task and tool.  The "work_reports" table records the progress reports sent by the tool the work item that it is currently assinged to.  The "work_archive" table records the complete record of a completed work item.
