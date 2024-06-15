@@ -1,5 +1,3 @@
-# Rhodium
-
 ## Disclaimer
 
 This is a personal exploratory project in progress, not production ready code.  
@@ -12,8 +10,7 @@ The notion of the service is that tasks will be submitted to the service to be p
 
 The service is agnostic of internal details of tool skills and task needs save that they must be valid json.  The actual tool/task assignment is performed by a client-provided assigner that will periodically query the api to get a list of available tasks and tools to consider for assignment.
 
-An example use case would be a laboratory where instruments periodically collected data that needed to be processed (task) by an appropriate program (tool).  Instruments and their data processing needs would not all be the same.
-
+An example use case would be a laboratory where multiple instruments periodically collected data that needed to be processed (task) by an appropriate program (tool).  Instruments and their data processing needs would not all be the same.  The service does not at this time provide a mechanism for stringing multiple tools together into processing pipelines.  That capability could be implemented in application-specific client software.
 
 
 ## Description
