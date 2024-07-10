@@ -18,6 +18,6 @@ app.include_router(archive_router)
 app.include_router(report_router)
 
 
-@app.get("/")
+@app.get("/", response_model=dict)
 def read_root():
-    return "Server is running."
+    return {"message": "Welcome to the API!"}

@@ -104,8 +104,10 @@ class ToolAccess:
 
     @staticmethod
     def get_available_tools(session: Session) -> list[DbTool]:
-        tools_stmt = select(DbTool).where(
-            DbTool.work_id == None, DbTool.ready_since != None
+        tools_stmt = (
+            select(DbTool)
+            .where(DbTool.work_id == None, DbTool.ready_since != None)
+            .order_by(DbTool.ready_since.desc())
         )
         tools = session.exec(tools_stmt).all()
         if not tools:
@@ -166,7 +168,11 @@ class TaskAccess:
 
     @staticmethod
     def get_available_tasks(session: Session) -> list[DbTask]:
-        tasks_stmt = select(DbTask).where(DbTask.work_id == None)
+        tasks_stmt = (
+            select(DbTask)
+            .where(DbTask.work_id == None)
+            .order_by(DbTask.created_at.desc())
+        )
         tasks = session.exec(tasks_stmt).all()
         if not tasks:
             return []
