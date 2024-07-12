@@ -245,7 +245,7 @@ async def get_all_tools(req: Request, db: Session = Depends(get_db)):
 
 
 @tool_router.get(
-    "/details/work/assignment{tool_id}",
+    "/details/work/assignment/{tool_id}",
     response_model=WorkInfo,
     summary=doc["get_work_for_tool"],
 )
