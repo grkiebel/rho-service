@@ -159,10 +159,9 @@ async def mark_tool_disabled(req: Request, tool_id: str, db: Session = Depends(g
 async def mark_work_succeeded(
     req: Request,
     work_id: int,
-    work_create: ReportCreate,
     db: Session = Depends(get_db),
 ):
-    return db_ex(WorkAc.work_succeeded)(work_id, work_create, db)
+    return db_ex(WorkAc.work_succeeded)(work_id, db)
 
 
 @work_router.put(
@@ -171,10 +170,9 @@ async def mark_work_succeeded(
 async def mark_work_failed(
     req: Request,
     work_id: int,
-    work_create: ReportCreate,
     db: Session = Depends(get_db),
 ):
-    return db_ex(WorkAc.work_failed)(work_id, work_create, db)
+    return db_ex(WorkAc.work_failed)(work_id, db)
 
 
 # ============================================================
