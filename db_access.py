@@ -243,29 +243,17 @@ class WorkAccess:
         return work
 
     @staticmethod
-    def work_succeeded(
-        work_id: int, report_create: ReportCreate, session: Session
-    ) -> Outcome:
-        report = DbReport(
-            work_id=work_id, status=work_status.SUCCEEDED, details=report_create.details
-        )
-        outcome = WorkAccess._set_work_completed(work_id, True, report, session)
+    def work_succeeded(work_id: int, session: Session) -> Outcome:
+        outcome = WorkAccess._set_work_completed(work_id, True, session)
         return outcome
 
     @staticmethod
-    def work_failed(
-        work_id: int, report_create: ReportCreate, session: Session
-    ) -> Outcome:
-        report = DbReport(
-            work_id=work_id, status=work_status.FAILED, details=report_create.details
-        )
-        outcome = WorkAccess._set_work_completed(work_id, False, report, session)
+    def work_failed(work_id: int, session: Session) -> Outcome:
+        outcome = WorkAccess._set_work_completed(work_id, False, session)
         return outcome
 
     @staticmethod
-    def _set_work_completed(
-        work_id: int, success: bool, report: DbReport, session: Session
-    ) -> Outcome:
+    def _set_work_completed(work_id: int, success: bool, session: Session) -> Outcome:
         work = session.exec(
             select(DbWork).where(DbWork.work_id == work_id)
         ).one_or_none()
@@ -275,7 +263,6 @@ class WorkAccess:
         work.status = work_status.SUCCEEDED if success else work_status.FAILED
         work.completed = True
 
-        session.add(report)
         session.commit()
         session.refresh(work)
 
