@@ -19,11 +19,11 @@ class ToolUpdate(BaseModel):
 
 
 class BriefTool(BaseModel):
-    work_id: int | None = None
+    tool_id: str | None = None
     enabled: bool | None = None
     ready_since: datetime | None = None
+    work_id: int | None = None
     task_id: str | None = None
-    tool_id: str | None = None
     status: str | None = None
     complete: bool | None = None
 
