@@ -169,7 +169,7 @@ class ArchiveInfo(BriefArchive):
         super().from_archive(archive)
         self.task_needs = archive.task_needs
         self.tool_skills = archive.tool_skills
-        self.reports = archive.reports
+        self.reports = archive.reports.get("reports", [])
         return self
 
 

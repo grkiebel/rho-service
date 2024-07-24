@@ -346,7 +346,8 @@ async def get_reports(req: Request, work_id: int, db: Session = Depends(get_db))
     "/details/{work_id}", response_model=ArchiveInfo, summary=doc["get_archive"]
 )
 async def get_archived_work(req: Request, work_id: int, db: Session = Depends(get_db)):
-    return db_ex(ArchiveAc.get_archived_work)(work_id, db)
+    item = db_ex(ArchiveAc.get_archived_work)(work_id, db)
+    return ArchiveInfo().from_archive(item)
 
 
 @archive_router.get(

@@ -1,3 +1,4 @@
+from fastapi.exceptions import ResponseValidationError
 from db_base import (
     DB_ITEM_NOT_FOUND,
     DB_ITEM_ALREADY_EXISTS,
@@ -19,6 +20,8 @@ def handle_db_exceptions(func):
             raise HTTPException(status_code=409, detail=str(e))
         except DB_WRONG_STATUS as e:
             raise HTTPException(status_code=500, detail=str(e))
+        except ResponseValidationError as e:
+            raise HTTPException(status_code=400, detail=str(e))
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))
 

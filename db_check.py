@@ -12,6 +12,8 @@ from db_base import (
 from db_models import work_status
 from db_access import ToolAccess, TaskAccess, WorkAccess, ArchiveAccess
 
+db.create_engine_and_tables()
+
 
 class Sim:
     @staticmethod
@@ -277,6 +279,27 @@ class ArchiveOps:
         with Session(db.engine) as session:
             ArchiveAccess.delete_all_archived_work(session)
 
+    @handle_db_exceptions
+    @staticmethod
+    def get_archived_work(Work_id: int):
+        with Session(db.engine) as session:
+            work = ArchiveAccess.get_archived_work(Work_id, session)
+            print(
+                f"Work: {work.work_id} - {work.status} - {work.tool_id} - {work.task_id}"
+            )
+            return work
+
+    @handle_db_exceptions
+    @staticmethod
+    def get_all_archived_work():
+        with Session(db.engine) as session:
+            result = ArchiveAccess.get_all_archived_work(session)
+            for work in result:
+                print(
+                    f"Work: {work.work_id} - {work.status} - {work.tool_id} - {work.task_id}"
+                )
+            return result
+
 
 def delete_all():
     ToolOps.delete_all_tools()
@@ -301,6 +324,8 @@ def main():
     # successful_work = WorkOps.get_all_successful_work()
     # work = WorkOps.get_work(22)
     # work_info = WorkInfo().from_work(work)
+    # archive_list = ArchiveOps.get_all_archived_work()
+    archive_info = ArchiveOps.get_archived_work(22)
     print("Done")
 
 

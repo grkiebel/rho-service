@@ -352,9 +352,12 @@ class ArchiveAccess:
 
     @staticmethod
     def get_archived_work(work_id: int, session: Session) -> DbArchive:
-        return session.exec(
+        archive = session.exec(
             select(DbArchive).where(DbArchive.work_id == work_id)
         ).one_or_none()
+        if not archive:
+            raise db.DB_ITEM_NOT_FOUND(f"Archved Work '{work_id}' does not exist")
+        return archive
 
     @staticmethod
     def delete_archived_work(work_id: int, session: Session) -> Outcome:
@@ -362,7 +365,7 @@ class ArchiveAccess:
             select(DbArchive).where(DbArchive.work_id == work_id)
         ).one_or_none()
         if not archive:
-            raise db.DB_ITEM_NOT_FOUND(f"Work '{work_id}' does not exist")
+            raise db.DB_ITEM_NOT_FOUND(f"Archved Work '{work_id}' does not exist")
         session.delete(archive)
         session.commit()
         return Outcome(message=f"Archived work {work_id} deleted successfully")

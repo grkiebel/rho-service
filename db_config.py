@@ -4,7 +4,8 @@ import os
 POSTGRES_USER = os.environ.get("POSTGRES_USER", "nothing")
 POSTGRES_PASSWORD = os.environ.get("POSTGRES_PASSWORD", "nothing")
 POSTGRES_DB = os.environ.get("POSTGRES_DB", "nothing")
-POSTGRES_HOST = os.environ.get("POSTGRES_HOST", "nothing")
+POSTGRES_HOST = os.environ.get("POSTGRES_HOST", "localhost")
+POSTGRES_PORT = os.environ.get("POSTGRES_PORT", "5432")
 
 
 def get_db_url(db_key: str = "db_production") -> str:
@@ -13,9 +14,11 @@ def get_db_url(db_key: str = "db_production") -> str:
     """
     dialect = "postgresql+psycopg2"
     host = POSTGRES_HOST
-    port = "5432"
+    port = POSTGRES_PORT
     database = POSTGRES_DB
     username = POSTGRES_USER
     password = POSTGRES_PASSWORD
 
-    return f"{dialect}://{username}:{password}@{host}:{port}/{database}"
+    database_url = f"{dialect}://{username}:{password}@{host}:{port}/{database}"
+    print(f"Database URL: {database_url}")
+    return database_url
