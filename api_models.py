@@ -34,19 +34,21 @@ class BriefTool(BaseModel):
         self.complete = tool.work.completed if tool.work else None
         self.status = tool.work.status if tool.work else None
         self.enabled = tool.enabled
-        self.ready_since = tool.ready_since
+        self.ready_since = tool.ready_since.strftime("%Y-%m-%d %H:%M:%S")
         return self
 
 
 class BasicTool(BaseModel):
     tool_id: str | None = None
     tool_skills: Dict | None = None
-    created_at: str | None = None
+    created_at: datetime | None = None
+    ready_since: datetime | None = None
 
     def from_tool(self, tool: DbTool):
         self.tool_id = tool.tool_id
         self.tool_skills = tool.tool_skills
         self.created_at = tool.created_at.strftime("%Y-%m-%d %H:%M:%S")
+        self.ready_since = tool.ready_since.strftime("%Y-%m-%d %H:%M:%S")
         return self
 
 
@@ -75,7 +77,7 @@ class BriefTask(BaseModel):
 class BasicTask(BaseModel):
     task_id: str | None = None
     task_needs: Dict | None = None
-    created_at: str | None = None
+    created_at: datetime | None = None
 
     def from_task(self, task: DbTask):
         self.task_id = task.task_id
